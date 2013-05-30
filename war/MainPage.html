@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map-canvas { height: 100% }
+    </style>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMvIgvyT2vnyhbkuaS-fAhYS5fXZ9ouNg&sensor=true">
+    </script>
+    <script type="text/javascript">
+      var geocoder;
+  var map;
+  function initialize() {
+    geocoder = new google.maps.Geocoder();
+    //var latlng = new google.maps.LatLng(-34.397, 150.644);
+    //var mapOptions = {
+      //zoom: 8,
+      //: latlng,
+      //mapTypeId: google.maps.MapTypeId.ROADMAP
+    //}
+    //map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+  }
+
+  function codeAddress() {
+    var address = document.getElementById("address").value;
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        //map.setCenter(results[0].geometry.location);
+        document.getElementById("latitute").value = results[0].geometry.location.lat();
+        document.getElementById("longitute").value = results[0].geometry.location.lng();
+        //var marker = new google.maps.Marker({
+            //map: map,
+            //position: results[0].geometry.location
+        //});
+      } else {
+        alert("Geocode was not successful for the following reason: " + status);
+      }
+    });
+  }
+    </script>
+  </head>
+  <body onload="initialize()">
+ <!--<div id="map-canvas" style="width: 320px; height: 480px;"></div>-->
+  <div>
+    
+  </div>
+
+  <div>
+    <form action="ShowResults.jsp" method="post">
+      State name: 
+      <select id="address" name="statename" onchange="codeAddress()">
+      	<option value=""> </option>
+      	<option value="Alabama, USA">AL</option>
+      	<option value="Alaska, USA">AK</option>
+      	<option value="Arizona, USA">AZ</option>
+      	<option value="Arkansas, USA">AR</option>
+      	<option value="California, USA">CA</option>
+      	<option value="Colorado, USA">CO</option>
+      	<option value="Connecticut, USA">CT</option>
+      	<option value="Delaware, USA">DE</option>
+      	<option value="Florida, USA">FL</option>
+      	<option value="Georgia, USA">GA</option>
+      	<option value="Hawaii, USA">HI</option>
+      	<option value="Idaho, USA">ID</option>
+      	<option value="Illinois, USA">IL</option>
+      	<option value="Indiana, USA">IN</option>
+      	<option value="Iowa, USA">IA</option>
+      	<option value="Kansas, USA">KS</option>
+      	<option value="Kentucky, USA">KY</option>
+      	<option value="Louisiana, USA">LA</option>
+      	<option value="Maine, USA">ME</option>
+      	<option value="Maryland, USA">MD</option>
+      	<option value="Massachusetts, USA">MA</option>
+      	<option value="Michigan, USA">MI</option>
+      	<option value="Minnesota, USA">MN</option>
+      	<option value="Mississippi, USA">MS</option>
+      	<option value="Missouri, USA">MO</option>
+      	<option value="Montana, USA">MT</option>
+      	<option value="Nebraska, USA">NE</option>
+      	<option value="Nevada, USA">NV</option>
+      	<option value="New Hampshire, USA">NH</option>
+      	<option value="New Jersey, USA">NJ</option>
+      	<option value="New Mexico, USA">NM</option>
+      	<option value="New York, USA">NY</option>
+      	<option value="North Carolina, USA">NC</option>
+      	<option value="North Dakota, USA">ND</option>
+      	<option value="Ohio, USA">OH</option>
+      	<option value="Oklahoma, USA">OK</option>
+      	<option value="Oregon, USA">OR</option>
+      	<option value="Pennsylvania, USA">PA</option>
+      	<option value="Rhode Island, USA">RI</option>
+      	<option value="South Carolina, USA">SC</option>
+      	<option value="South Dakota, USA">SD</option>
+      	<option value="Tennessee, USA">TN</option>
+      	<option value="Texas, USA">TX</option>
+      	<option value="Utah, USA">UT</option>
+      	<option value="Vermont, USA">VT</option>
+      	<option value="Virginia, USA">VA</option>
+      	<option value="Washington, USA">WA</option>
+      	<option value="West Virginia, USA">WV</option>
+      	<option value="Wisconsin, USA">WI</option>
+      	<option value="Wyoming, USA">WY</option>
+      	<option value="American Samoa, USA">AS</option>
+      	<option value="District of Columbia, USA">DC</option>
+      	<option value="Guam, USA">GU</option>
+      	<option value="Northern Mariana Islands, USA">MP</option>
+      	<option value="Puerto Rico, USA">PR</option>
+      	<option value="Virgin Islands, USA">VI</option>
+      </select><br />
+      Latitude: <input type="text" id="latitute" name="lat" /><br />
+      Longitude: <input type="text" id="longitute" name="lng" /><br />  
+      Category: 
+      <input type="text" name="category" />
+      <input type="submit" />
+    </form>
+  </div>
+</body>
+</html>
