@@ -1,0 +1,88 @@
+package com.gae.buzzmap;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import twitter4j.GeoLocation;
+import twitter4j.Query;
+import twitter4j.QueryResult;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
+
+public class DataMiner {
+	private Twitter twitter = new TwitterFactory().getInstance();
+	public DataMiner() {
+		// TODO Auto-generated constructor stub
+<<<<<<< HEAD
+		twitter.setOAuthConsumer("yourAuthKey");
+		twitter.setOAuthAccessToken(new AccessToken("yourAuthToken"));
+=======
+		twitter.setOAuthConsumer(yourOwnConsumer);
+		twitter.setOAuthAccessToken(new AccessToken(YourOwnAccessToken));
+>>>>>>> f3acbf1eedbc735a20e6ac855bdd439916dbba28
+	}
+	public Map<SearchKeywords, List<Status>> getTweets(SearchKeywords keywords, double latitude, double longitude) throws TwitterException{
+		String keyword = keywords.getCategory();
+		List<Status> tweets = new LinkedList<Status>();
+		Map<SearchKeywords, List<Status>> keywordTweetsMap = new HashMap<SearchKeywords, List<Status>>();
+		
+		GeoLocation geoLocation = new GeoLocation(latitude, longitude);
+		String queryString = keyword;
+		Query query = new Query();
+		query.setCount(100);
+		query.setGeoCode(geoLocation, 50, "km");
+		query.setQuery(queryString);
+		QueryResult result = twitter.search(query);
+		tweets = result.getTweets();
+		keywordTweetsMap.put(keywords, tweets);
+		System.out.println("#DataMiner: Reaching getTweets()");
+		// For test use
+		Set<SearchKeywords> keySet = keywordTweetsMap.keySet();
+		for(SearchKeywords searchKeywords : keySet){
+			System.out.println("Category: " + searchKeywords.getCategory() + "; State name: " + searchKeywords.getStateName());
+			List<Status> status = keywordTweetsMap.get(searchKeywords);
+			for(Status everyStatus : status){
+				System.out.println("Content: " + everyStatus.getText());
+			}
+		}
+		return keywordTweetsMap;
+	}
+	
+	public List<Tweet> packageTweets(Map<SearchKeywords, List<Status>> statusMap){
+		System.out.println("#DataMiner: Reaching packageTweets()");
+		List<Tweet> tweets = new LinkedList<Tweet>();
+		List<Status> status = new LinkedList<Status>();
+		Set<SearchKeywords> keySet = statusMap.keySet();
+		SearchKeywords words = new SearchKeywords(null, null);
+		for(SearchKeywords keyword : keySet){
+			words = keyword;
+			status = statusMap.get(keyword);
+		}
+		String category = words.getCategory();
+		for(Status statusObj : status){
+			Tweet tweet = new Tweet();
+			tweet.setId(statusObj.getId());
+			tweet.setText(statusObj.getText());
+			tweet.setStatename(words.getStateName());
+			tweet.set_Create_at(statusObj.getCreatedAt());
+			tweet.set_from_user(statusObj.getUser().getId());
+			tweet.set_from_user_name(statusObj.getUser().getName());
+			tweet.setCategory(category);
+			tweet.setProfileImageUrl(statusObj.getUser().getProfileImageURL());
+			tweets.add(tweet);
+			// Out put tweet
+			System.out.println("User name: " + tweet.get_from_user_name() + "; Content: " + tweet.getText());
+		}
+		
+		return tweets;
+		
+	}
+	
+	
+}
