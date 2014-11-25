@@ -19,8 +19,8 @@ public class DataMiner {
 	private Twitter twitter = new TwitterFactory().getInstance();
 	public DataMiner() {
 		// TODO Auto-generated constructor stub
-		twitter.setOAuthConsumer("edP9Suoinr2HcmYzfsBXWw", "0oi5n9BRivHXqjUp6Jtr2pIt94HsAwV0k3f2D1tto4");
-		twitter.setOAuthAccessToken(new AccessToken("274786550-OWzZm2s1zD5C3ECCTs4GqrvNVc1ccvYUYoMDQHXE", "btoLJg7RuOzcGEVjBx9CpuKn8UdzQTogq4NxmxnCM"));
+		twitter.setOAuthConsumer("yourAuthKey");
+		twitter.setOAuthAccessToken(new AccessToken("yourAuthToken"));
 	}
 	public Map<SearchKeywords, List<Status>> getTweets(SearchKeywords keywords, double latitude, double longitude) throws TwitterException{
 		String keyword = keywords.getCategory();
